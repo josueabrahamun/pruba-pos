@@ -1,9 +1,12 @@
+import React from "react";
+import Login from "./ui/auth/Login";
+
 function App() {
   return (
-    <div className="text-4xl font-semibold text-blue-600 text-center mt-10">
-      POS (Point of sale)  
-    </div>
-  )
+
+    <Login />
+
+  );
 }
 
-export default App
+export default App;
