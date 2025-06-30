@@ -1,12 +1,12 @@
-import React from "react";
-import Login from "./ui/auth/Login";
 
-function App() {
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from '@/config/routes/AppRoutes';
+
+export default function App() {
   return (
-
-    <Login />
-
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 
-export default App;
