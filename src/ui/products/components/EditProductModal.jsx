@@ -1,27 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const EditProductModal = ({ producto, onClose, onSave }) => {
-  const [descripcion, setDescripcion] = useState(producto.descripcion);
-  const [cantidad, setCantidad] = useState(producto.cantidad);
-  const [precio, setPrecio] = useState(producto.precio);
+const EditProductModal = ({ producto, onClose, onUpdate }) => {
+  const [clave, setClave] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [cantidad, setCantidad] = useState('');
+  const [precio, setPrecio] = useState('');
 
-  const handleSave = () => {
-    onSave({ ...producto, descripcion, cantidad: parseInt(cantidad), precio: parseFloat(precio) });
+  useEffect(() => {
+    if (producto) {
+      setClave(producto.clave || '');
+      setDescripcion(producto.descripcion || '');
+      setCantidad(producto.cantidad || '');
+      setPrecio(producto.precio || '');
+    }
+  }, [producto]);
+
+  const handleUpdate = () => {
+    if (!clave || !descripcion || !cantidad || !precio) return;
+    onUpdate({
+      id: producto.id,
+      clave,
+      descripcion,
+      cantidad: parseInt(cantidad),
+      precio: parseFloat(precio),
+    });
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white w-96 p-6 rounded shadow-md">
-        <h2 className="text-lg font-bold mb-4 bg-[#395886] text-white p-2 rounded">Editar producto</h2>
-        <label className="block font-semibold">Descripción:</label>
-        <input type="text" className="w-full border p-1 mb-2" value={descripcion} onChange={e => setDescripcion(e.target.value)} />
-        <label className="block font-semibold">Cantidad:</label>
-        <input type="number" className="w-full border p-1 mb-2" value={cantidad} onChange={e => setCantidad(e.target.value)} />
-        <label className="block font-semibold">Precio:</label>
-        <input type="number" step="0.01" className="w-full border p-1 mb-4" value={precio} onChange={e => setPrecio(e.target.value)} />
-        <div className="flex justify-between">
-          <button className="bg-[#395886] text-white px-4 py-2 rounded" onClick={handleSave}>Guardar</button>
-          <button className="bg-[#B21613] text-white px-4 py-2 rounded" onClick={onClose}>Cancelar</button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white w-[460px] rounded-md shadow-lg overflow-hidden">
+        <div className="bg-[#395886] text-white text-lg font-bold px-6 py-3">Editar producto</div>
+        <div className="p-6 space-y-4 text-sm">
+          <div className="flex justify-between items-center">
+            <label className="font-semibold w-1/2 text-left">Clave de producto:</label>
+            <input
+              type="text"
+              value={clave}
+              onChange={e => setClave(e.target.value)}
+              className="w-1/2 bg-[#D5DEEF] border border-gray-300 px-2 py-1 text-right rounded"
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <label className="font-semibold w-1/2 text-left">Descripción:</label>
+            <input
+              type="text"
+              value={descripcion}
+              onChange={e => setDescripcion(e.target.value)}
+              className="w-1/2 bg-[#D5DEEF] border border-gray-300 px-2 py-1 text-right rounded"
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <label className="font-semibold w-1/2 text-left">Cantidad:</label>
+            <input
+              type="number"
+              value={cantidad}
+              onChange={e => setCantidad(e.target.value)}
+              className="w-1/2 bg-[#D5DEEF] border border-gray-300 px-2 py-1 text-right rounded"
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <label className="font-semibold w-1/2 text-left">Precio:</label>
+            <input
+              type="number"
+              step="0.01"
+              value={precio}
+              onChange={e => setPrecio(e.target.value)}
+              className="w-1/2 bg-[#D5DEEF] border border-gray-300 px-2 py-1 text-right rounded"
+            />
+          </div>
+        </div>
+        <div className="flex justify-between px-6 pb-5">
+          <button
+            onClick={handleUpdate}
+            className="bg-[#395886] hover:bg-[#314d71] text-white px-4 py-2 rounded"
+          >
+            Guardar
+          </button>
+          <button
+            onClick={onClose}
+            className="bg-[#B21613] hover:bg-[#92110f] text-white px-4 py-2 rounded"
+          >
+            Cancelar
+          </button>
         </div>
       </div>
     </div>
